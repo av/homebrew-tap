@@ -1,8 +1,8 @@
 # Formula for the av/homebrew-tap repo (Formula/agent-store.rb).
 # Binary-based: installs prebuilt release tarballs from GitHub Releases.
 #
-# After tagging a release, update the version in the three urls and their sha256. Compute each with:
-#   curl -sL https://github.com/av/agent-store/releases/download/v0.1.3/agent-store-v0.1.3-x86_64-apple-darwin.sha256
+# After tagging a release, update the version in the four urls and their sha256. Compute each with:
+#   curl -sL https://github.com/av/agent-store/releases/download/v0.1.4/agent-store-v0.1.4-x86_64-apple-darwin.sha256
 # (each .tar.gz asset has a matching .sha256 asset; the checksum is the first field)
 # Or use scripts/update-formula.sh vX.Y.Z in the tap repo (it fails if the assets are missing).
 class AgentStore < Formula
@@ -12,20 +12,21 @@ class AgentStore < Formula
 
   on_macos do
     if Hardware::CPU.arm?
-      url "https://github.com/av/agent-store/releases/download/v0.1.3/agent-store-v0.1.3-aarch64-apple-darwin.tar.gz"
-      sha256 "bba69df972259aa694e8101cf88fbfbf5e8cf6a2175a17e8c1136587dea5f51f"
+      url "https://github.com/av/agent-store/releases/download/v0.1.4/agent-store-v0.1.4-aarch64-apple-darwin.tar.gz"
+      sha256 "9bba213ffd0dd975ef3d9eb544b841b387e95d7f15d05eb7be88326d61b73392"
     else
-      url "https://github.com/av/agent-store/releases/download/v0.1.3/agent-store-v0.1.3-x86_64-apple-darwin.tar.gz"
-      sha256 "e6ec2b8dc496d10fc964c72415b97848bd043f71b22449bbd6723e40fcf117a9"
+      url "https://github.com/av/agent-store/releases/download/v0.1.4/agent-store-v0.1.4-x86_64-apple-darwin.tar.gz"
+      sha256 "12ff3555aa5781a75e61c61626c62a2fe2d3c509a6950b7c508a2b5037d1b7b8"
     end
   end
 
   on_linux do
-    if Hardware::CPU.intel?
-      url "https://github.com/av/agent-store/releases/download/v0.1.3/agent-store-v0.1.3-x86_64-unknown-linux-musl.tar.gz"
-      sha256 "6fb74b6303448edc59e1f2e6449613401f4ced5b15dcd4edc80b970a4a57d7dc"
+    if Hardware::CPU.arm?
+      url "https://github.com/av/agent-store/releases/download/v0.1.4/agent-store-v0.1.4-aarch64-unknown-linux-musl.tar.gz"
+      sha256 "4d13fff76cd5e080c2232db8eab9c55c8641357d5cb3c051927588fcd7313273"
     else
-      odie "agent-store: no prebuilt Linux binary for #{Hardware::CPU.arch}"
+      url "https://github.com/av/agent-store/releases/download/v0.1.4/agent-store-v0.1.4-x86_64-unknown-linux-musl.tar.gz"
+      sha256 "2e8088a5b2e0ee6cd12137d7a2ec41154f0293c30a78f2cdd8a51acead13bd9f"
     end
   end
 

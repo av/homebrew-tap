@@ -27,8 +27,9 @@ fetch_sha() {
 SHA_MAC_ARM=$(fetch_sha aarch64-apple-darwin)
 SHA_MAC_X64=$(fetch_sha x86_64-apple-darwin)
 SHA_LINUX=$(fetch_sha x86_64-unknown-linux-musl)
+SHA_LINUX_ARM=$(fetch_sha aarch64-unknown-linux-musl)
 
-# bump the version inside the three url lines (the formula has no separate
+# bump the version inside the four url lines (the formula has no separate
 # `version` line: brew audit --strict reads it from the url)
 sed -i.bak -E "s#/download/v[^/]*/agent-store-v[^/]*-(aarch64|x86_64)-#/download/$TAG/agent-store-$TAG-\1-#" "$FORMULA"
 
@@ -44,6 +45,7 @@ replace_sha() { # $1=target $2=sha
 replace_sha aarch64-apple-darwin "$SHA_MAC_ARM"
 replace_sha x86_64-apple-darwin "$SHA_MAC_X64"
 replace_sha x86_64-unknown-linux-musl "$SHA_LINUX"
+replace_sha aarch64-unknown-linux-musl "$SHA_LINUX_ARM"
 rm -f "$FORMULA.bak"
 
 ruby -c "$FORMULA" >/dev/null 2>&1 || echo "warning: ruby -c failed or ruby missing"
@@ -52,4 +54,5 @@ echo "Updated $FORMULA to $VERSION"
 echo "  aarch64-apple-darwin:        $SHA_MAC_ARM"
 echo "  x86_64-apple-darwin:         $SHA_MAC_X64"
 echo "  x86_64-unknown-linux-musl:   $SHA_LINUX"
+echo "  aarch64-unknown-linux-musl:  $SHA_LINUX_ARM"
 echo "Next: git commit -am 'agent-store $VERSION' && git push"
